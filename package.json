@@ -2,7 +2,7 @@
   "name": "atable",
   "version": "0.1.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +20,9 @@
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react": "^16.2.0"
+  },
+  "scripts": {
+    "prepublishOnly": "npm build-dist",
+    "build-dist": "npx buble src -o dist"
   }
 }
