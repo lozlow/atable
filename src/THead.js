@@ -1,21 +1,19 @@
 const React = require('react')
 const PropTypes = require('prop-types')
 
+const omit = require('./lib/omit')
+
 class THead extends React.Component {
   getChildContext () {
     return {
       cellType: 'th',
-      options: {
-        hasActiveSort: true,
-        sortable: false,
-        sortDirection: 'asc'
-      }
+      options: {}
     }
   }
 
   render () {
     return (
-      <thead>
+      <thead {...omit(this.props, ['children'])}>
         {this.props.children}
       </thead>
     )
@@ -26,7 +24,5 @@ THead.childContextTypes = {
   cellType: PropTypes.string,
   options: PropTypes.object
 }
-
-THead.__THEAD = true
 
 module.exports = THead

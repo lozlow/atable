@@ -2,6 +2,8 @@ const React = require('react')
 const PropTypes = require('prop-types')
 const classnames = require('classnames')
 
+const omit = require('./lib/omit')
+
 class Row extends React.Component {
   getChildContext () {
     const { datum } = this.props
@@ -10,14 +12,13 @@ class Row extends React.Component {
   }
 
   render () {
-    const { children, className, datum, rowSpan, onClick, datumIndex } = this.props
+    const { children, className, datum, datumIndex } = this.props
     const { rowClassName, cellType, options } = this.context
 
-    const rowProps = { rowSpan, onClick }
     const childrenArr = [].concat(children)
 
     return (
-      <tr className={classnames(rowClassName, className)} {...rowProps}>
+      <tr className={classnames(rowClassName, className)} {...omit(this.props, ['children', 'className', 'datum', 'datumIndex', 'getKey'])}>
         {childrenArr.map((child, idx) => {
           if (typeof child === 'function') {
             child = (cellType === 'th') ? child(options) : child(datum, datumIndex)

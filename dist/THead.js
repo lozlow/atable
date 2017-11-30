@@ -1,6 +1,8 @@
 var React = require('react')
 var PropTypes = require('prop-types')
 
+var omit = require('./lib/omit')
+
 var THead = (function (superclass) {
   function THead () {
     superclass.apply(this, arguments);
@@ -13,17 +15,13 @@ var THead = (function (superclass) {
   THead.prototype.getChildContext = function getChildContext () {
     return {
       cellType: 'th',
-      options: {
-        hasActiveSort: true,
-        sortable: false,
-        sortDirection: 'asc'
-      }
+      options: {}
     }
   };
 
   THead.prototype.render = function render () {
     return (
-      React.createElement( 'thead', null,
+      React.createElement( 'thead', omit(this.props, ['children']),
         this.props.children
       )
     )
@@ -36,7 +34,5 @@ THead.childContextTypes = {
   cellType: PropTypes.string,
   options: PropTypes.object
 }
-
-THead.__THEAD = true
 
 module.exports = THead

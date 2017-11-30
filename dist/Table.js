@@ -1,6 +1,8 @@
 var React = require('react')
 var PropTypes = require('prop-types')
 
+var omit = require('./lib/omit')
+
 var Table = (function (superclass) {
   function Table () {
     superclass.apply(this, arguments);
@@ -20,10 +22,8 @@ var Table = (function (superclass) {
   };
 
   Table.prototype.render = function render () {
-    var ref = this.props;
-    var className = ref.className;
     return (
-      React.createElement( 'table', { className: className },
+      React.createElement( 'table', omit(this.props, ['children', 'data', 'rowClassName', 'cellClassName']),
         this.props.children
       )
     )

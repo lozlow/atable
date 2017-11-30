@@ -1,6 +1,8 @@
 const React = require('react')
 const PropTypes = require('prop-types')
 
+const omit = require('./lib/omit')
+
 class Table extends React.Component {
   getChildContext () {
     const { rowClassName, cellClassName, data } = this.props
@@ -9,9 +11,8 @@ class Table extends React.Component {
   }
 
   render () {
-    const { className } = this.props
     return (
-      <table className={className}>
+      <table {...omit(this.props, ['children', 'data', 'rowClassName', 'cellClassName'])}>
         {this.props.children}
       </table>
     )

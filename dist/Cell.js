@@ -2,6 +2,8 @@ var React = require('react')
 var PropTypes = require('prop-types')
 var classnames = require('classnames')
 
+var omit = require('./lib/omit')
+
 var Cell = (function (superclass) {
   function Cell () {
     superclass.apply(this, arguments);
@@ -19,14 +21,9 @@ var Cell = (function (superclass) {
     var ref$1 = this.props;
     var children = ref$1.children;
     var className = ref$1.className;
-    var colSpan = ref$1.colSpan;
-    var onClick = ref$1.onClick;
 
-    var cellProps = {
-      className: classnames(cellClassName, className),
-      colSpan: colSpan,
-      onClick: onClick
-    }
+    var cellProps = Object.assign({}, {className: classnames(cellClassName, className)},
+      omit(this.props, ['children', 'className']))
 
     return React.createElement(
       cellType,
@@ -43,7 +40,5 @@ Cell.contextTypes = {
   cellType: PropTypes.string,
   datum: PropTypes.object
 }
-
-Cell.__CELL = true
 
 module.exports = Cell

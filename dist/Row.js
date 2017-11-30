@@ -2,6 +2,8 @@ var React = require('react')
 var PropTypes = require('prop-types')
 var classnames = require('classnames')
 
+var omit = require('./lib/omit')
+
 var Row = (function (superclass) {
   function Row () {
     superclass.apply(this, arguments);
@@ -23,19 +25,16 @@ var Row = (function (superclass) {
     var children = ref.children;
     var className = ref.className;
     var datum = ref.datum;
-    var rowSpan = ref.rowSpan;
-    var onClick = ref.onClick;
     var datumIndex = ref.datumIndex;
     var ref$1 = this.context;
     var rowClassName = ref$1.rowClassName;
     var cellType = ref$1.cellType;
     var options = ref$1.options;
 
-    var rowProps = { rowSpan: rowSpan, onClick: onClick }
     var childrenArr = [].concat(children)
 
     return (
-      React.createElement( 'tr', Object.assign({}, { className: classnames(rowClassName, className) }, rowProps),
+      React.createElement( 'tr', Object.assign({}, { className: classnames(rowClassName, className) }, omit(this.props, ['children', 'className', 'datum', 'datumIndex', 'getKey'])),
         childrenArr.map(function (child, idx) {
           if (typeof child === 'function') {
             child = (cellType === 'th') ? child(options) : child(datum, datumIndex)

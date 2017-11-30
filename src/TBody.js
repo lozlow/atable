@@ -1,6 +1,8 @@
 const React = require('react')
 const PropTypes = require('prop-types')
 
+const omit = require('./lib/omit')
+
 class TBody extends React.Component {
   getChildContext () {
     return { cellType: 'td' }
@@ -8,18 +10,19 @@ class TBody extends React.Component {
 
   render () {
     const { data } = this.context
-    const { className, children } = this.props
+    const { children } = this.props
     const childComponents = [].concat(children)
 
     return (
-      <tbody className={className}>
+      <tbody {...omit(this.props, ['children'])}>
         {(data)
           ? data.map((datum, dataIdx) => childComponents.map((child, childIdx) => {
             if (typeof child === 'function') child = child(datum, dataIdx)
+            if (!child) return
             const rowKey = (child.props.getKey) ? child.props.getKey(datum) : dataIdx
             const key = `${rowKey}:${childIdx}`
 
-            return child && React.cloneElement(child, { key, datum, datumIndex: dataIdx })
+            return React.cloneElement(child, { key, datum, datumIndex: dataIdx })
           }))
           : children
         }
@@ -35,7 +38,5 @@ TBody.contextTypes = {
 TBody.childContextTypes = {
   cellType: PropTypes.string
 }
-
-TBody.__TBODY = true
 
 module.exports = TBody
