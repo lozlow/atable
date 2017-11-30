@@ -3,10 +3,14 @@
 it's a table
 
 ```
-$ npm install lozlow/atable
+$ npm install atable
 ```
 
 comes with no styling of it's own, it's completely up to you on how to render your Cells.
+
+## why?
+
+a very simple, declarative way of generating tables, define your table as if it was rendering just one row and pass an array of datums.
 
 ## usage
 
