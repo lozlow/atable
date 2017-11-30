@@ -20,10 +20,17 @@ var Cell = (function (superclass) {
     var children = ref$1.children;
     var className = ref$1.className;
     var colSpan = ref$1.colSpan;
+    var onClick = ref$1.onClick;
+
+    var cellProps = {
+      className: classnames(cellClassName, className),
+      colSpan: colSpan,
+      onClick: onClick
+    }
 
     return React.createElement(
       cellType,
-      { className: classnames(cellClassName, className), colSpan: colSpan },
+      cellProps,
       typeof children === 'function' ? children(datum) : children
     )
   };

@@ -26,10 +26,11 @@ var TBody = (function (superclass) {
       React.createElement( 'tbody', { className: className },
         (data)
           ? data.map(function (datum, dataIdx) { return childComponents.map(function (child, childIdx) {
-            var key = dataIdx + ":" + childIdx
             if (typeof child === 'function') { child = child(datum, dataIdx) }
+            var rowKey = (child.props.getKey) ? child.props.getKey(datum) : dataIdx
+            var key = rowKey + ":" + childIdx
 
-            return child && React.cloneElement(child, { key: key, datum: datum })
+            return child && React.cloneElement(child, { key: key, datum: datum, datumIndex: dataIdx })
           }); })
           : children
       )

@@ -15,10 +15,11 @@ class TBody extends React.Component {
       <tbody className={className}>
         {(data)
           ? data.map((datum, dataIdx) => childComponents.map((child, childIdx) => {
-            const key = `${dataIdx}:${childIdx}`
             if (typeof child === 'function') child = child(datum, dataIdx)
+            const rowKey = (child.props.getKey) ? child.props.getKey(datum) : dataIdx
+            const key = `${rowKey}:${childIdx}`
 
-            return child && React.cloneElement(child, { key, datum })
+            return child && React.cloneElement(child, { key, datum, datumIndex: dataIdx })
           }))
           : children
         }

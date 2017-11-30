@@ -32,12 +32,6 @@ var Table = (function (superclass) {
   return Table;
 }(React.Component));
 
-Table.defaultProps = {
-  className: 'ATable',
-  rowClassName: 'ARow',
-  cellClassName: 'ACell'
-}
-
 Table.childContextTypes = {
   rowClassName: PropTypes.string,
   cellClassName: PropTypes.string,

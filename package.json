@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublishOnly": "npm build-dist",
+    "build-dist": "npx buble src -o dist --objectAssign=\"Object.assign\""
   },
   "repository": {
     "type": "git",
@@ -20,9 +21,5 @@
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0",
     "react": "^16.2.0"
-  },
-  "scripts": {
-    "prepublishOnly": "npm build-dist",
-    "build-dist": "npx buble src -o dist"
   }
 }

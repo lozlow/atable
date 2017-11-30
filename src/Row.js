@@ -10,18 +10,19 @@ class Row extends React.Component {
   }
 
   render () {
-    const { children, className, datum } = this.props
+    const { children, className, datum, rowSpan, onClick, datumIndex } = this.props
     const { rowClassName, cellType, options } = this.context
 
+    const rowProps = { rowSpan, onClick }
     const childrenArr = [].concat(children)
 
     return (
-      <tr className={classnames(rowClassName, className)}>
+      <tr className={classnames(rowClassName, className)} {...rowProps}>
         {childrenArr.map((child, idx) => {
           if (typeof child === 'function') {
-            child = (cellType === 'th') ? child(options) : child(datum)
+            child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
           }
-          return child && React.cloneElement(child, { key: idx })
+          return child && React.cloneElement(child, { key: child.key || idx })
         })}
       </tr>
     )

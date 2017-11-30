@@ -23,20 +23,24 @@ var Row = (function (superclass) {
     var children = ref.children;
     var className = ref.className;
     var datum = ref.datum;
+    var rowSpan = ref.rowSpan;
+    var onClick = ref.onClick;
+    var datumIndex = ref.datumIndex;
     var ref$1 = this.context;
     var rowClassName = ref$1.rowClassName;
     var cellType = ref$1.cellType;
     var options = ref$1.options;
 
+    var rowProps = { rowSpan: rowSpan, onClick: onClick }
     var childrenArr = [].concat(children)
 
     return (
-      React.createElement( 'tr', { className: classnames(rowClassName, className) },
+      React.createElement( 'tr', Object.assign({}, { className: classnames(rowClassName, className) }, rowProps),
         childrenArr.map(function (child, idx) {
           if (typeof child === 'function') {
-            child = (cellType === 'th') ? child(options) : child(datum)
+            child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
           }
-          return child && React.cloneElement(child, { key: idx })
+          return child && React.cloneElement(child, { key: child.key || idx })
         })
       )
     )
