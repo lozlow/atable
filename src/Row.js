@@ -16,15 +16,17 @@ class Row extends React.Component {
     const { rowClassName, cellType, options } = this.context
 
     const childrenArr = [].concat(children)
+    const mapChildren = (key) => (child, idx) => {
+      if (Array.isArray(child)) return child.map(mapChildren(idx))
+      if (typeof child === 'function') {
+        child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
+      }
+      return child && React.cloneElement(child, { key: `${key}:${child.key || idx}` })
+    }
 
     return (
       <tr className={classnames(rowClassName, className)} {...omit(this.props, ['children', 'className', 'datum', 'datumIndex', 'getKey'])}>
-        {childrenArr.map((child, idx) => {
-          if (typeof child === 'function') {
-            child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
-          }
-          return child && React.cloneElement(child, { key: child.key || idx })
-        })}
+        {childrenArr.map(mapChildren(0))}
       </tr>
     )
   }

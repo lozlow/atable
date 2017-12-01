@@ -32,15 +32,17 @@ var Row = (function (superclass) {
     var options = ref$1.options;
 
     var childrenArr = [].concat(children)
+    var mapChildren = function (key) { return function (child, idx) {
+      if (Array.isArray(child)) { return child.map(mapChildren(idx)) }
+      if (typeof child === 'function') {
+        child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
+      }
+      return child && React.cloneElement(child, { key: (key + ":" + (child.key || idx)) })
+    }; }
 
     return (
       React.createElement( 'tr', Object.assign({}, { className: classnames(rowClassName, className) }, omit(this.props, ['children', 'className', 'datum', 'datumIndex', 'getKey'])),
-        childrenArr.map(function (child, idx) {
-          if (typeof child === 'function') {
-            child = (cellType === 'th') ? child(options) : child(datum, datumIndex)
-          }
-          return child && React.cloneElement(child, { key: child.key || idx })
-        })
+        childrenArr.map(mapChildren(0))
       )
     )
   };
